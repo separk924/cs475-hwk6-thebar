@@ -26,12 +26,24 @@ int main(int argc, char **argv)
 {
 	printBanner();
 	init(); // initialize semaphores
+	num_threads = atoi(argv[1]);
 
-	// TODO - fire off customer thread
+	pthread_t custThreads[num_threads];
+	// fire off customer thread
+	int i;
+	for(i=0; i<num_threads;i++){
+		pthread_create(&custThreads[i], NULL, customer, (void *)&i);
+	}
 
-	// TODO - fire off bartender thread
+	// fire off bartender thread
+	pthread_t barThread;
+	pthread_create(&barThread, NULL, bartender, NULL);
 
-	// TODO - wait for all threads to finish
+	// wait for all threads to finish
+	for(i=0; i<num_threads;i++){ // joining customer threads
+		pthread_join(custThreads[i], NULL);
+	}
+	pthread_join(barThread, NULL); // joining bartender thread
 
 	cleanup(); // cleanup and destroy semaphores
 	return 0;
@@ -55,9 +67,25 @@ void printBanner()
  */
 void init()
 {
-	// TODO - unlink semaphores
+	// unlink semaphores
+	sem_unlink("/bar_empty");
+	sem_unlink("/customer_inside");
+	sem_unlink("/bartender_available");
+	sem_unlink("/customer_places_order");
+	sem_unlink("/bartender_made_drink");
+	sem_unlink("/customer_paid");
+	sem_unlink("/bartender_confirms_payment");
+	sem_unlink("/customer_leaves");
 
-	// TODO - create semaphores
+	// create semaphores
+	bar_empty = sem_open("/bar_empty", O_CREAT, 0600, 1);
+	customer_inside = sem_open("/customer_outside", O_CREAT, 0600, 1);
+	bartender_available = sem_open("/bartender_available", O_CREAT, 0600, 1);
+	customer_places_order = sem_open("/customer_places_order", O_CREAT, 0600, 1);
+	bartender_made_drink = sem_open("/bartender_made_drink", O_CREAT, 0600, 1);
+	customer_paid = sem_open("/customer_paid", O_CREAT, 0600, 1);
+	bartender_confirms_payment = sem_open("/bartender_confirms_payment", O_CREAT, 0600, 1);
+	customer_leaves = sem_open("/customer_leaves", O_CREAT, 0600, 1);
 }
 
 /**
@@ -65,5 +93,13 @@ void init()
  */
 void cleanup()
 {
-	// TODO - close semaphores
+	// close semaphores
+	sem_close(bar_empty);
+	sem_close(customer_inside);
+	sem_close(bartender_available);
+	sem_close(customer_places_order);
+	sem_close(bartender_made_drink);
+	sem_close(customer_paid);
+	sem_close(bartender_confirms_payment);
+	sem_close(customer_leaves);
 }
