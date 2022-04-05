@@ -8,7 +8,6 @@
 #ifndef CUSTOMER_H_
 #define CUSTOMER_H_
 
-
 void* customer(void* args);
 void custTravelToBar(unsigned int custID);
 void custArriveAtBar(unsigned int custID);
