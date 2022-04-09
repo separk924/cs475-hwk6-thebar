@@ -22,7 +22,6 @@
 void* customer(void* args)
 {
 	unsigned int *custID = (unsigned int*) args;
-	now_serving = *custID;
 	custTravelToBar(*custID);
 	custArriveAtBar(*custID);
 	custPlaceOrder();
@@ -54,6 +53,7 @@ void custArriveAtBar(unsigned int custID)
 {
 	sem_wait(bar_empty);
 	// synchronize
+	now_serving = custID;
 	printf("\t\tCust %u\t\t\t\t\t\t\t\t\t|\n", custID);
 	sem_post(customer_inside);
 }

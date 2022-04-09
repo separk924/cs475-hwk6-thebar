@@ -28,11 +28,17 @@ int main(int argc, char **argv)
 	init(); // initialize semaphores
 	num_threads = atoi(argv[1]);
 
+	int custNum[num_threads];
+	int j;
+	for(j=0; j<num_threads;j++){
+		custNum[j] = j;
+	}
+
 	pthread_t custThreads[num_threads];
 	// fire off customer thread
 	int i;
 	for(i=0; i<num_threads;i++){
-		pthread_create(&custThreads[i], NULL, customer, (void *)&i);
+		pthread_create(&custThreads[i], NULL, customer, (void *)&custNum[i]);
 	}
 
 	// fire off bartender thread
