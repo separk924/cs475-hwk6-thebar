@@ -38,6 +38,7 @@ int main(int argc, char **argv)
 	// fire off customer thread
 	int i;
 	for(i=0; i<num_threads;i++){
+		now_serving = i;
 		pthread_create(&custThreads[i], NULL, customer, (void *)&custNum[i]);
 	}
 
