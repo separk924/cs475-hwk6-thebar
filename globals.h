@@ -20,5 +20,8 @@ sem_t* bartender_made_drink;
 sem_t* customer_paid;
 sem_t* bartender_confirms_payment;
 sem_t* customer_leaves;
+sem_t* customer_browsing_art;
+sem_t* customer_at_register;
+sem_t* bartender_at_register;
 
 #endif /* GLOBALS_H_ */

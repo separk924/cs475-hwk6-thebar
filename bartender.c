@@ -65,9 +65,12 @@ void receivePayment()
 {
 	// synchronize
 	// at the register waiting for customer to pay
-	sem_wait(customer_paid);
+	sem_wait(customer_at_register);
+	sem_wait(customer_browsing_art);
 	printf("\t\t\t\t\t\t\t\t\t\t\t| \t\t\t\tBartender\n");
-	sem_post(bartender_confirms_payment);
+	sem_post(bartender_at_register);
+	sem_wait(customer_paid);
 	//got the payment from the right customer!
 	printf("\t\t\t\t\t\t\t\t\t\t\t| \t\t\t\t\t\tBartender\n");
+	sem_post(bartender_confirms_payment);
 }

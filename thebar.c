@@ -76,16 +76,23 @@ void init()
 	sem_unlink("/customer_paid");
 	sem_unlink("/bartender_confirms_payment");
 	sem_unlink("/customer_leaves");
+	sem_unlink("/customer_browsing_art");
+	sem_unlink("/customer_at_register");
+	sem_unlink("/bartender_at_register");
+
 
 	// create semaphores
 	bar_empty = sem_open("/bar_empty", O_CREAT, 0600, 1);
-	customer_inside = sem_open("/customer_outside", O_CREAT, 0600, 1);
-	bartender_available = sem_open("/bartender_available", O_CREAT, 0600, 1);
-	customer_places_order = sem_open("/customer_places_order", O_CREAT, 0600, 1);
-	bartender_made_drink = sem_open("/bartender_made_drink", O_CREAT, 0600, 1);
-	customer_paid = sem_open("/customer_paid", O_CREAT, 0600, 1);
-	bartender_confirms_payment = sem_open("/bartender_confirms_payment", O_CREAT, 0600, 1);
-	customer_leaves = sem_open("/customer_leaves", O_CREAT, 0600, 1);
+	customer_inside = sem_open("/customer_outside", O_CREAT, 0600, 0);
+	bartender_available = sem_open("/bartender_available", O_CREAT, 0600, 0);
+	customer_places_order = sem_open("/customer_places_order", O_CREAT, 0600, 0);
+	bartender_made_drink = sem_open("/bartender_made_drink", O_CREAT, 0600, 0);
+	customer_paid = sem_open("/customer_paid", O_CREAT, 0600, 0);
+	bartender_confirms_payment = sem_open("/bartender_confirms_payment", O_CREAT, 0600, 0);
+	customer_leaves = sem_open("/customer_leaves", O_CREAT, 0600, 0);
+	customer_browsing_art = sem_open("/customer_browsing_art", O_CREAT, 0600, 0);
+	customer_at_register = sem_open("/customer_at_register", O_CREAT, 0600, 0);
+	bartender_at_register = sem_open("/bartender_at_register", O_CREAT, 0600, 0);
 }
 
 /**
@@ -102,4 +109,7 @@ void cleanup()
 	sem_close(customer_paid);
 	sem_close(bartender_confirms_payment);
 	sem_close(customer_leaves);
+	sem_close(customer_browsing_art);
+	sem_close(customer_at_register);
+	sem_close(bartender_at_register);
 }

@@ -22,6 +22,7 @@
 void* customer(void* args)
 {
 	unsigned int *custID = (unsigned int*) args;
+	now_serving = *custID;
 	custTravelToBar(*custID);
 	custArriveAtBar(*custID);
 	custPlaceOrder();
@@ -76,11 +77,12 @@ void custPlaceOrder()
  */
 void custBrowseArt()
 {
-	// synchronize
 	printf("\t\t\t\t\t\tCust %u\t\t\t\t\t|\n", now_serving);
+	// synchronize
 	srand(time(0));
 	int num = rand() % 4000000 + 3000;
 	usleep(num); // browsing wall art
+	sem_post(customer_browsing_art);
 }
 
 
@@ -91,10 +93,12 @@ void custBrowseArt()
  */
 void custAtRegister()
 {
+	
 	sem_wait(bartender_made_drink);
-
 	// synchronize
 	printf("\t\t\t\t\t\t\t\tCust %u\t\t\t|\n", now_serving);
+	sem_post(customer_at_register);
+	sem_wait(bartender_at_register);
 	sem_post(customer_paid);
 }
 
